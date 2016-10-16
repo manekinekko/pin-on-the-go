@@ -1,3 +1,38 @@
-<h1>
-  {{title}}
-</h1>
+<p>
+  <button type="button" name="login" (click)="login()">Login</button>
+  <button type="button" name="logout" (click)="logout()">Logout</button>
+  <button type="button" name="boards" (click)="getBoards()">Boards</button>
+
+  Boards
+  <select [value]="boardname" (change)="setCurrentBoard($event)">
+    <option value="-">---</option>
+    <option *ngFor="let board of boards" [value]="board.slug">{{ board.name }}</option>
+  </select>
+
+  <button type="button" name="pins" (click)="getPins()" [disabled]="!boardname">Pins</button>
+
+  <input type="range" name="distance" min="0" max="10" [value]="distance" (change)="setMinDistance($event)" [disabled]="!boardname"> dans un rayon de {{ distance }} KM
+</p>
+
+<ul>
+  <li *ngFor="let board of boards">
+    <img [src]="board.image.small.url" alt="{{ board.name }}" title="{{ board.name }}"/>
+  </li>
+</ul>
+
+<h2>
+  <span *ngIf="isClicked" >Recherche en cours...</span>
+  <span *ngIf="isSearching && pins.length === 0" >Aucun Pin autour !</span>
+</h2>
+
+<ul>
+  <li *ngFor="let pin of pins">
+    <a *ngIf="!pin.metadata?.place" target="_blank" href="https://www.google.fr/maps?q={{ pin.note }}&17z&t=k&mrt=all">
+      <img [src]="pin.image.original.url" alt="" height="200" title="{{ pin.note }}"/>
+    </a>
+    <!-- <span>{{pin.note}}</span> -->
+    <a *ngIf="pin.metadata?.place" target="_blank" href="https://www.google.fr/maps?q={{ pin.metadata?.place?.latitude }}+{{ pin.metadata?.place?.longitude }}&17z&t=k&mrt=all">
+      <img [src]="pin.image.original.url" alt="" height="200" title="{{ pin.note }}"/>
+    </a>
+  </li>
+</ul>
