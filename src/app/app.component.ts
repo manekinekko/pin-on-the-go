@@ -1,59 +1,22 @@
 import { Component } from '@angular/core';
-import { PinterestService } from './pinterest.service';
+import { Platform } from 'ionic-angular';
+import { StatusBar, Splashscreen } from 'ionic-native';
+
+import { TabsPage } from '../pages/tabs/tabs';
+
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  template: `<ion-nav [root]="rootPage"></ion-nav>`
 })
-export class AppComponent {
+export class MyApp {
+  rootPage = TabsPage;
 
-  pins = [];
-  boards = [];
-  isClicked = false;
-  isSearching = false;
-  distance = 0;
-  boardname;
-  session;
-
-  constructor(
-    private service: PinterestService
-  ) {
-    this.session = this.service.session;
-  }
-
-  setMinDistance(event) {
-    this.distance = +(event.target.value);
-    this.service.minDistance = this.distance;
-  }
-
-  setCurrentBoard(event) {
-    this.boardname = event.target.value;
-  }
-
-  login() {
-    this.service.login().subscribe( session => {
-      this.session = this.service.session;
-    })
-  }
-  logout() {
-    this.service.logout();
-    this.session = null;
-  }
-  getBoards() {
-    this.isClicked = true;
-    this.service.boards().subscribe(boards => {
-      this.boards = boards;
-      this.isClicked = false;
-    });
-  }
-  getPins() {
-    this.isClicked = true;
-    this.isSearching = false;
-    this.service.pins(this.boardname).subscribe(pins => {
-      this.pins = pins;
-      this.isClicked = false;
-      this.isSearching = true;
+  constructor(platform: Platform) {
+    platform.ready().then(() => {
+      // Okay, so the platform is ready and our plugins are available.
+      // Here you can do any higher level native things you might need.
+      StatusBar.styleDefault();
+      Splashscreen.hide();
     });
   }
 }
