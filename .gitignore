@@ -32,3 +32,8 @@ testem.log
 #System Files
 .DS_Store
 Thumbs.db
+
+tools/httpsproxy.go
+tools/server.crt
+tools/server.csr
+tools/server.key

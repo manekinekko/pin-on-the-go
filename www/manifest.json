@@ -1,13 +1,17 @@
 {
-  "name": "Ionic",
-  "short_name": "Ionic",
-  "start_url": "index.html",
+  "name": "PinOnTheGo",
+  "short_name": "PinOnTheGo",
+  "start_url": "index.html?pwa",
   "display": "standalone",
   "icons": [{
-    "src": "assets/imgs/logo.png",
-    "sizes": "512x512",
+    "src": "assets/confiance.png",
+    "sizes": "96x96",
+    "type": "image/png"
+  }, {
+    "src": "assets/confiance.png",
+    "sizes": "144x144",
     "type": "image/png"
   }],
-  "background_color": "#4e8ef7",
-  "theme_color": "#4e8ef7"
+  "background_color": "#C8232D",
+  "theme_color": "#C8232D"
 }

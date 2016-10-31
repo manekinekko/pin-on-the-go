@@ -1,0 +1,63 @@
+<ion-header no-shadow>
+  <ion-toolbar no-border>
+    <ion-title>Nearby Pins ({{ service.minDistance }}km)</ion-title>
+    <!--<ion-buttons right>
+      <button ion-button>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>-->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [ngClass]="{ 'no-pins': isLoading === false && pins.length === 0 }">
+
+  <ion-refresher (ionRefresh)="refresh($event)" (ionPull)="pulling($event)">
+    <ion-refresher-content
+      pullingText="Pull to refresh..."
+      refreshingText="Refreshing your nearby pins...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <!-- showing a loading message -->
+  <div *ngIf="isLoading === true">
+    <h1>
+      Loading your nearby pins...
+    </h1>
+  </div>
+
+  <div *ngIf="isLoading === false && pins.length === 0">
+    <h1>
+      No pins around you...
+    </h1>
+  </div>
+
+  <!-- loop over pins -->
+  <ion-card *ngFor="let pin of pins">
+    
+    <img [src]="pin.image.original.url" alt="" height="200" title="{{ pin.note }}"/>
+    
+    <ion-fab right top>
+      <button ion-fab color="danger" (click)="openMaps(pin)">
+        <ion-icon name="pin"></ion-icon>
+      </button>
+    </ion-fab>
+
+    <ion-item>
+      <ion-icon name="information-circle" item-left large></ion-icon>
+      <h2>{{ pin.metadata?.place?.name }}</h2>
+      <p>{{ pin.note }}</p>
+    </ion-item>
+
+    <ion-item>
+      <span item-left>{{ pin.distance?.time }} min</span>
+      <span item-left>({{ pin.distance?.km }} km)</span>
+
+      <button primary clear item-right *ngIf="pin.metadata?.place?.source_url" (click)="visit(pin)">
+        <ion-icon name="eye"></ion-icon>
+        Start
+      </button>
+
+    </ion-item>
+
+  </ion-card>
+</ion-content>
